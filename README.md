@@ -125,7 +125,7 @@ The following is a condensed timeline of confirmed real-world incidents involvin
 
 - **Feb 3**: Snyk publishes "From SKILL.md to Shell Access in Three Lines of Markdown" threat model, documenting how three lines of markdown in a `SKILL.md` file can instruct an agent to read SSH keys and exfiltrate them.
 
-- **Feb 4**: Alice releases **Caterpillar**, an open-source dynamic SAST tool for AI agent skills. In an early real-world test, Caterpillar flagged several published skills as actively malicious — skills that were in use by over 6,000 OpenClaw users at the time of detection ([Yahoo Finance](https://finance.yahoo.com/news/alice-releases-caterpillar-catching-malicious-191600442.html)).
+- **Feb 4**: Several published OpenClaw skills found to be actively malicious while in use by over 6,000 users — detected via behavioral analysis, not pattern matching ([Yahoo Finance](https://finance.yahoo.com/news/alice-releases-caterpillar-catching-malicious-191600442.html)).
 
 - **Feb 5**: Snyk publishes **ToxicSkills** — the first comprehensive security audit of the AI agent skill ecosystem. Key findings: 36% of skills contain security flaws; 13.4% contain critical-level issues; 76 confirmed active malicious payloads; 8 malicious skills still live at time of publication.
 
