@@ -51,6 +51,23 @@ This OWASP Agentic Skills Top 10 fills the gap by treating skills as first-class
 
 ---
 
+## The 10 Risks — Summary Table
+
+| # | Risk | Severity | Platforms Affected | Key Mitigation | Real-World Evidence |
+|---|------|----------|--------------------|----------------|---------------------|
+| **AST01** | Malicious Skills | Critical | All | Merkle root signing, registry scanning | ClawHavoc (1,184 skills), ToxicSkills (76 payloads) |
+| **AST02** | Supply Chain Compromise | Critical | All | Registry transparency, provenance tracking | ClawHub collapse, Claude Code CVE-2025-59536 |
+| **AST03** | Over-Privileged Skills | High | All | Least-privilege manifests, schema validation | 280+ credential-leaking skills (Snyk, Feb 2026) |
+| **AST04** | Insecure Metadata | High | All | Static analysis, manifest linting | Fake "Google" skill impersonation (ClawHub) |
+| **AST05** | Unsafe Deserialization | High | All | Safe parsers, sandboxed loading | YAML-based payload delivery in SKILL.md |
+| **AST06** | Weak Isolation | High | All | Containerization, Docker sandboxing | OpenClaw host-mode execution, 135K exposed instances |
+| **AST07** | Update Drift | Medium | All | Immutable pinning, hash verification | ClawJacked (CVE-2026-28363), patch-lag exploitation |
+| **AST08** | Poor Scanning | Medium | All | Semantic + behavioral multi-tool pipeline | Pattern-matcher bypass via natural-language injection |
+| **AST09** | No Governance | Medium | All | Skill inventories, agentic identity controls | 53K exposed instances with no SOC visibility |
+| **AST10** | Cross-Platform Reuse | Medium | All | Universal YAML format | Malicious skills ported across ClawHub, skills.sh |
+
+---
+
 # Chapter 1: Introduction to Agentic AI Skills
 
 ## 1.1 Defining Agentic AI Skills
