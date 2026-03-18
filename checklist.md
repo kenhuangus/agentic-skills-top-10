@@ -15,7 +15,7 @@ A practical checklist for evaluating AI agent skills against the [OWASP Agentic 
 | 1.3 | Has cryptographic signature verification been performed? | Valid ed25519 signature; `content_hash` matches published manifest |
 | 1.4 | Have all skill scripts and natural language instructions been reviewed for malicious patterns? | No encoded payloads, no `curl` to unknown endpoints, no credential access beyond stated function in code or natural language instructions |
 | 1.5 | Has the skill been tested in an isolated canary environment before production deployment? | Dynamic test report showing observed behavior matches declared behavior |
-| 1.6 | Does the skill avoid writing to agent identity files (`SOUL.md`, `MEMORY.md`, `AGENTS.md`)? | No write access to identity files unless explicitly justified and approved |
+| 1.6 | Does the skill avoid writing to agent identity files (`SOUL.md`, `MEMORY.md`, `AGENTS.md`)? | No write access to identity files unless explicitly justified and approved *(see also 3.6 — privilege angle)* |
 
 **Motivated by**: ClawHavoc campaign (1,184 malicious skills); 5 of top 7 most-downloaded ClawHub skills at peak infection were confirmed malware.
 
@@ -45,7 +45,7 @@ A practical checklist for evaluating AI agent skills against the [OWASP Agentic 
 | 3.3 | Does the skill avoid unrestricted shell access (`shell: true`)? | `shell: false` or shell access scoped to specific commands |
 | 3.4 | Are file permissions scoped to specific paths (no `**/*` wildcards)? | Explicit file paths declared; no broad globs |
 | 3.5 | Does the skill use per-skill scoped credentials (not shared agent-level API keys)? | Credentials isolated to this skill's scope; rotated on schedule |
-| 3.6 | Is write access to agent identity files (`SOUL.md`, `MEMORY.md`) flagged for elevated review? | Write access to identity files requires explicit justification and approval |
+| 3.6 | Is write access to agent identity files (`SOUL.md`, `MEMORY.md`) flagged for elevated review? | Write access to identity files requires explicit justification and approval *(see also 1.6 — persistence angle)* |
 | 3.7 | Are network permissions declared as domain allowlists (not binary `network: true/false`)? | Specific domains listed; default deny for all other egress |
 | 3.8 | Does the skill avoid accessing credential stores, `.env` files, wallet files, or SSH keys beyond its stated function? | No reads to `~/.ssh/`, `~/.aws/`, `.env`, `**/credentials*`, `*.wallet`, or browser data directories unless explicitly required and justified |
 
@@ -59,7 +59,7 @@ A practical checklist for evaluating AI agent skills against the [OWASP Agentic 
 |---|-------|---------------------|
 | 4.1 | Does the skill description accurately and completely reflect its actual functionality? | No hidden capabilities; description matches observed behavior |
 | 4.2 | Has metadata been scanned for ASCII smuggling, zero-width Unicode, and base64-encoded payloads? | Clean scan; no steganographic content in `SKILL.md` natural language instructions or manifest |
-| 4.3 | Are default configurations secure (not permissive)? | Defaults require explicit opt-in for dangerous capabilities |
+| 4.3 | Are default metadata configurations secure (not permissive)? | No default-open permissions; dangerous capabilities (shell, network, identity file writes) require explicit opt-in in the manifest |
 | 4.4 | Has metadata been validated against a security schema? | Schema validation passed; no unexpected or undeclared fields |
 | 4.5 | Is the declared `risk_tier` consistent with the actual permission scope? | Cross-reference: a skill declaring `L0` (safe) with `shell: true` is a red flag |
 | 4.6 | Has brand/trademark impersonation been checked? | Skill name does not impersonate a known brand without affiliation |
@@ -93,7 +93,7 @@ A practical checklist for evaluating AI agent skills against the [OWASP Agentic 
 | 6.4 | Are seccomp/AppArmor profiles applied to constrain system calls? | Profile attached to skill execution context |
 | 6.5 | Is the skill isolated from other skills and agents (per-skill namespacing)? | Process-level isolation confirmed; no shared memory or filesystem between skills |
 | 6.6 | Are WebSocket connections rate-limited and authenticated (including from localhost)? | Rate limiting and auth confirmed on all control channels |
-| 6.7 | Is skill hot-reload / workspace precedence restricted in production? | Workspace skill overrides require explicit user confirmation |
+| 6.7 | Is skill hot-reload / workspace precedence restricted in production? | Workspace skill overrides require explicit user confirmation *(see also 7.5 — update drift angle)* |
 
 **Motivated by**: 135,000+ OpenClaw instances publicly exposed with no default firewall or authentication (SecurityScorecard). ClawJacked (CVE-2026-28363, CVSS 9.9): browser tab brute-forces localhost WebSocket to hijack local agent.
 
@@ -107,7 +107,7 @@ A practical checklist for evaluating AI agent skills against the [OWASP Agentic 
 | 7.2 | Is auto-update disabled or gated behind re-approval in production? | Updates require explicit human approval before deployment |
 | 7.3 | Are updates cryptographically signed by the original publisher? | Signature verification on every update; reject unsigned |
 | 7.4 | Will updates trigger automatic security re-scanning? | Scan pipeline runs on every version change |
-| 7.5 | Is hot-reload disabled in non-development environments? | `SkillsWatcher` or equivalent disabled in production; changes require restart + approval |
+| 7.5 | Is hot-reload disabled in non-development environments? | `SkillsWatcher` or equivalent disabled in production; changes require restart + approval *(see also 6.7 — isolation angle)* |
 | 7.6 | Is there an active subscription to security advisories for installed skills? | CVE alerts configured for all installed skill packages |
 
 **Motivated by**: 12,812 OpenClaw instances exploitable via RCE during patch-lag window (SecurityScorecard). OpenClaw SkillsWatcher enables real-time hot-reload — compromised upstream becomes instantly active.
