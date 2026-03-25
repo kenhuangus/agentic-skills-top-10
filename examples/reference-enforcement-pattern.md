@@ -71,7 +71,7 @@ class RiskEvaluator:
 
 
 class AdmissionController:
-    RISK_DENY_THRESHOLD = "high"
+    RISK_DENY_LEVELS = {"high", "critical"}
 
     def __init__(
         self,
@@ -96,6 +96,8 @@ class AdmissionController:
             return self._emit(Decision("DENY", "TOOL_NOT_REGISTERED", context.trace_id, context.policy_version))
 
         tool_config = self.registry.get(request.tool_name)
+        if tool_config is None:
+            return self._emit(Decision("DENY", "TOOL_CONFIG_MISSING", context.trace_id, context.policy_version))
 
         if request.capability not in context.session_capabilities:
             return self._emit(Decision("DENY", "CAPABILITY_NOT_AUTHORIZED", context.trace_id, context.policy_version))
@@ -111,7 +113,7 @@ class AdmissionController:
             return self._emit(Decision("DENY", "ARGUMENT_VALIDATION_FAILED", context.trace_id, context.policy_version))
 
         risk_level = self.risk.evaluate(request, context)
-        if risk_level == self.RISK_DENY_THRESHOLD:
+        if risk_level in self.RISK_DENY_LEVELS:
             return self._emit(Decision("DENY", "REQUEST_RISK_TOO_HIGH", context.trace_id, context.policy_version))
         if risk_level == "medium":
             return self._emit(Decision("ALLOW", "POLICY_CHECKS_PASSED_ELEVATED_RISK", context.trace_id, context.policy_version))
@@ -124,9 +126,9 @@ Helper functions such as `lookup_ownership`, `role_allows`, `arguments_match_pol
 policy logic. Every decision — ALLOW or DENY — is emitted through `audit_log` to ensure a
 complete, tamper-evident trail.
 
-The risk deny threshold is exposed as a class-level constant (`RISK_DENY_THRESHOLD`) so
-deployments can adjust it. Requests classified as `"medium"` risk are allowed but tagged with
-a distinct reason (`POLICY_CHECKS_PASSED_ELEVATED_RISK`) so downstream consumers can apply
+The risk deny levels are exposed as a class-level set (`RISK_DENY_LEVELS`) so deployments can
+adjust which levels trigger denial. Requests classified as `"medium"` risk are allowed but tagged
+with a distinct reason (`POLICY_CHECKS_PASSED_ELEVATED_RISK`) so downstream consumers can apply
 additional controls such as human-in-the-loop confirmation or enhanced monitoring.
 
 This pattern is intentionally simple. The key property is not the specific implementation,
