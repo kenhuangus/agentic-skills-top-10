@@ -417,6 +417,9 @@ The following is a condensed timeline of confirmed real-world incidents involvin
 
 **Description**: Organizations deploying AI agents lack the inventories, policies, review processes, and audit trails needed to manage skills at enterprise scale. Skills are installed by individual developers with no SOC visibility, no approval workflow, and no revocation mechanism — creating a "shadow AI" layer that security teams cannot see or control.
 
+- **[AgentGate](https://github.com/ElamOlame31/agentgate-public)** - Pre-execution authorization layer addressing Excessive Agency and Authorization bypass in agentic systems. 4D trust scoring, behavioral kill chain detection, Merkle audit trail. MIT licensed.
+https://www.tryagentgate.com/
+
 **Why It's Unique to Skills**: Traditional software asset management (SAM) tools have no concept of agent skills. Skill installation is typically a one-line command (`openclaw skill install <name>`) with no enterprise logging hook, no CMDB entry, and no connection to identity and access management (IAM). The result is that skills represent a large and growing blind spot in enterprise security posture.
 
 **Real-World Evidence**:
