@@ -716,7 +716,7 @@ AST10 fills the gap between protocol-layer and model-layer security — a gap th
 - **NIST AI RMF** — https://airc.nist.gov/
 - **ISO/IEC 42001** (AI Management System) — https://www.iso.org/standard/81230.html
 - **EU AI Act** (enforced Aug 2026) — https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689
-- **NIST / CAISI Federal Register RFI on AI Agent Security** (Jan 8, 2026) — https://www.federalregister.gov/documents/2026/01/08/2026-00206/
+- **NIST / CAISI Federal Register RFI on AI Agent Security** (Jan 8, 2026) — https://www.federalregister.gov/documents/2026/01/08/2026-00206/request-for-information-regarding-security-considerations-for-artificial-intelligence-agents
 
 ### Academic and Technical
 
