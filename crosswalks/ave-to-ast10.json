@@ -1,0 +1,74 @@
+{
+  "description": "Crosswalk from AVE (Agentic Vulnerability Enumeration, github.com/aveproject/ave) behavioral classes to OWASP Agentic Skills Top 10 (AST10) categories. AVE's skill-type records that describe runtime, instruction-driven agent behavior (prompt injection, jailbreaks, goal hijacking, memory poisoning, etc.) are intentionally omitted where no AST10 category covers that layer -- AST10 is scoped to the skill packaging, distribution, permission-manifest, metadata, deserialization, and scanning layer, not general agentic behavioral deviation, which AVE's own taxonomy and the OWASP LLM/Agentic AI Top 10 projects already cover. Confidence: \"direct\" means the AVE record's behavioral fingerprint matches the AST10 category's own description; \"partial\" means the record is a genuine instance of the category but the category's primary framing emphasizes a related but not identical mechanism.",
+  "source": "https://github.com/aveproject/ave",
+  "target": "https://github.com/kenhuangus/agentic-skills-top-10",
+  "mappings": [
+    {
+      "ave_id": "AVE-2026-00001",
+      "ast_id": "AST02",
+      "ast_name": "Supply Chain Compromise",
+      "confidence": "partial",
+      "note": "Metamorphic payload fetched at runtime replaces reviewed instructions post-approval -- same 'clean at scan time, malicious at execution time' mechanism as AST02's config-file hijacking and staged-payload scenarios."
+    },
+    {
+      "ave_id": "AVE-2026-00022",
+      "ast_id": "AST03",
+      "ast_name": "Over-Privileged Skills",
+      "confidence": "direct",
+      "note": "Accessing resources beyond the skill's declared manifest scope is AST03's core definition verbatim."
+    },
+    {
+      "ave_id": "AVE-2026-00033",
+      "ast_id": "AST05",
+      "ast_name": "Unsafe Deserialization",
+      "confidence": "direct",
+      "note": "pickle.loads / unguarded yaml.load / eval on untrusted data is exactly AST05's scope."
+    },
+    {
+      "ave_id": "AVE-2026-00034",
+      "ast_id": "AST02",
+      "ast_name": "Supply Chain Compromise",
+      "confidence": "direct",
+      "note": "Loading an unverified third-party skill/plugin from an external URL at runtime is AST02's dependency-confusion / provenance-gap scenario."
+    },
+    {
+      "ave_id": "AVE-2026-00038",
+      "ast_id": "AST03",
+      "ast_name": "Over-Privileged Skills",
+      "confidence": "partial",
+      "note": "Unbounded tool use / unlimited sub-agent spawning is an excessive-agency variant of over-privileged skills; AST03's own OWASP mapping cites LLM09 Excessive Agency."
+    },
+    {
+      "ave_id": "AVE-2026-00047",
+      "ast_id": "AST03",
+      "ast_name": "Over-Privileged Skills",
+      "confidence": "direct",
+      "note": "Hardcoded credentials exposed in skill files is the exact real-world evidence AST03 itself cites (Snyk: 280+ credential-leaking skills)."
+    },
+    {
+      "ave_id": "AVE-2026-00048",
+      "ast_id": "AST03",
+      "ast_name": "Over-Privileged Skills",
+      "confidence": "partial",
+      "note": "Sub-agent inheriting the full parent permission set with no trust boundary is a delegation-chain variant of over-privileging; also touches AST06 (Weak Isolation) but the primary mechanism is permission scope, not sandboxing."
+    },
+    {
+      "ave_id": "AVE-2026-00057",
+      "ast_id": "AST08",
+      "ast_name": "Poor Scanning",
+      "confidence": "direct",
+      "note": "Base64/hex-encoded or keyword-split payloads designed to defeat pattern-based static scanners is AST08's core definition verbatim."
+    },
+    {
+      "ave_id": "AVE-2026-00058",
+      "ast_id": "AST04",
+      "ast_name": "Insecure Metadata",
+      "confidence": "direct",
+      "note": "Misleading manifest-declared description/trigger scope causing over-broad or implicit invocation is AST04's metadata-trust-anchoring problem verbatim."
+    }
+  ],
+  "omitted": {
+    "ast_categories_with_no_current_ave_mapping": ["AST01", "AST06", "AST07", "AST09", "AST10"],
+    "why": "These describe ecosystem/organizational-level concerns (whole-skill malware as a packaging class, sandbox/container isolation infrastructure, patch/update management, enterprise governance, cross-platform format portability) rather than a single behavioral class an individual AVE record enumerates. Not mapped rather than force-fit, per AVE's own 'omit rather than force' discipline for optional framework fields."
+  }
+}
