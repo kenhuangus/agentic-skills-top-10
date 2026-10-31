@@ -1,0 +1,23 @@
+# Universal Skill Format manifest (source of a port)
+name: db-maintenance
+version: 2.1.0
+description: "Vacuum and reindex the reporting database."
+author:
+  name: "Data Platform"
+  identity: "did:web:data.example.com"
+permissions:
+  files:
+    read: [~/.config/dbtool.json]
+    write: []
+    deny_write: [SOUL.md, MEMORY.md, AGENTS.md]
+  network:
+    allow: [db.internal.example.com]
+    deny: "*"
+  shell: false
+  tools: [read_file]
+risk_tier: L3
+signature: "ed25519:fixture-signature"
+content_hash: "sha256:fixture-content-hash"
+scan_status:
+  scanner: example-scanner@1.0.0
+  result: pass

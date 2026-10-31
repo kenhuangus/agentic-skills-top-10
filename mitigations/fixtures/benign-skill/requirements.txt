@@ -1,0 +1,2 @@
+# all dependencies pinned with hashes (AST02)
+certifi==2024.8.30 --hash=sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8

